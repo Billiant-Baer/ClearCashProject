@@ -15,31 +15,36 @@ const Show = () => {
         }
     }, [location.state]);
 
+    const renderChart = () => {
+        const ctx = document.getElementById("expenseChart");
+        if (ctx) {
+            console.log("in If")
+            new Chart(ctx, {
+                type: "pie",
+                data: {
+                    labels: budgets.map((budget) => budget.title),
+                    datasets: [
+                        {
+                            label: "Expenses",
+                            data: budgets.map((budget) => budget.amount),
+                            backgroundColor: budgets.map((budget) => budget.color),
+                        },
+                    ],
+                },
+            });
+        } 
+    };
     useEffect(() => {
-        const renderChart = () => {
-            const ctx = document.getElementById("expenseChart");
-            if (ctx) {
-                new Chart(ctx, {
-                    type: "pie",
-                    data: {
-                        labels: budgets.map((budget) => budget.title),
-                        datasets: [
-                            {
-                                label: "Expenses",
-                                data: budgets.map((budget) => budget.amount),
-                                backgroundColor: budgets.map((budget) => budget.color),
-                            },
-                        ],
-                    },
-                });
-            } else {
-                console.error("Canvas element with ID 'expenseChart' not found");
-            }
-        };
+       
+    renderChart(); // Call the renderChart function after the component is mounted
 
-        renderChart(); // Call the renderChart function after the component is mounted
-
+        
     }, [budgets]);
+    
+
+
+
+
 
     const handleAddBudget = () => {
         navigate("/create");
@@ -65,7 +70,7 @@ const Show = () => {
                         </div>
 
                         {/* Render canvas element */}
-                        <canvas  id="expenseChart" style={{ maxWidth: '300px', maxHeight: '300px' , backgroundColor:"black", justifyContent: "center" }}></canvas>
+                        <canvas id="expenseChart" style={{ maxWidth: '300px', maxHeight: '300px' , backgroundColor:"black", justifyContent: "center" }}></canvas>
 
                         <h1 className="mb-3">Expenses:</h1>
                         <ul className="list-group mb-4">
